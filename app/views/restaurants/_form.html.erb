@@ -1,4 +1,18 @@
 <%= form_for @restaurant do |f| %>
+  <% if @restaurant.errors.any? %>
+
+  <div class="alert alert-danger">
+    <p><b><%= @restaurant.errors.count %>件のエラーがあります</b></p>
+
+    <ul>
+      <% @restaurant.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
   <div class="form-group">
     <%= f.label :store_name, "店名" %>
     <%= f.text_field :store_name, class: "form-control"%>
