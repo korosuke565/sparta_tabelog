@@ -2,5 +2,25 @@
   <div class="col-lg-12">
     <h1>お店情報の修正</h1>
     <%= render 'form' %>
+    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete-customer">お店情報を削除する</button>
   </div>
 </div>
+
+<!-- 下記のモーダルは通常は隠れているので、どこに書いてもＯＫ -->
+<div class="modal fade" id="delete-customer">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">お店の情報を削除</h4>
+      </div>
+      <div class="modal-body">
+        <p><%= @restaurant.store_name %>を削除しますか？</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">キャンセル</button>
+        <%= link_to '削除する', @restaurant, method: :delete, class: "btn btn-danger" %>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
