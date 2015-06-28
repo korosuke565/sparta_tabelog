@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-lg-12">
-    <h1>ニューレビュー登録</h1>
+    <h1>お店の評価</h1>
     <ul>
       <li>店名：<%= @restaurant.store_name %></li>
       <li>電話番号：<%= @restaurant.tel %></li>
@@ -12,7 +12,7 @@
   <%= form_for([@restaurant, @review]) do |f| %>
     <div class="form-group">
       <%= f.label :score, '星(5段階評価)' %><br>
-      <%= f.text_field :score, class:"form-control" %>
+      <%= f.number_field :score, class:"form-control" %>
       <%= f.label :body, 'レビュー' %><br>
       <%= f.text_area :body, class: "form-control" %>
     </div>

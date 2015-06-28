@@ -2,24 +2,88 @@
   <div class="col-lg-12">
     <h1><%= @restaurant.store_name %></h1>
     <h2><%= @restaurant.tel%></h2>
-    <div class="table">
-      <tr>
-        <th>店名</th>
-        <th><%= @restaurant.store_name %></th>
-      </tr>
-      <tr>
-        <th>TEL・予約</th>
-        <th><%= @restaurant.tel %></th>
-      </tr>
-      <tr>
-        <th>住所</th>
-        <th><%= @restaurant.address %></th>
-      </tr>
-      <tr>
-        <th>ホームページ</th>
-        <th><%= @restaurant.website %></th>
-      </tr>
+    <% if @restaurant.reviews.exists? %>
+      <h2>スコア: <%= Review.where("restaurant_id = #{params[:id]}").average(:score).round(2) %></h2>
+    <% else %>
+      <p>レビューを投稿しましょう！</p>
+    <% end %>
+    <h2><%= link_to "レビューを書く", new_restaurant_review_path(@restaurant), class: 'btn btn-default' %></h2>
+    <div class="panel panel-default">
+  <!-- Default panel contents -->
+      <div class="panel-heading"> 店舗情報</div>
+        <div class="container">
+
+          <!-- Table -->
+          <table class="table">
+
+            <tr>
+              <th>店名</th>
+              <td><%= @restaurant.store_name %></td>
+            </tr>
+            <tr>
+              <th>TEL・予約</th>
+              <td><%= @restaurant.tel %></td>
+            </tr>
+            <tr>
+              <th>住所</th>
+              <td><%= @restaurant.address %></td>
+            </tr>
+            <tr>
+              <th>ホームページ</td>
+              <th><%= link_to "#{@restaurant.website}" ,@restaurant.website %></th>
+            </tr>
+
+          </table>
+        </div>
+      </div>
     </div>
-    <%= link_to "新しくお店を登録", new_restaurant_path%>
+
+<hr>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="container">
+      <h2>レビューの一覧</h2>
+      <% @restaurant.reviews.each do |review| %>
+        <div class="media">
+          <div class="media-left">
+            <%= image_tag review.user.image_url, class: "media-object", size: '20×20'%>
+          </div>
+            <div class="media-body">
+              <p>星: <%= review.score %></p>
+              <p><%= simple_format(review.body) %></p>
+              <p class="text-muted">
+              by <%= review.user.user_name %> さん
+              </p>
+              <% if review.user_id == current_user.id %>
+                <%= link_to '編集', edit_restaurant_review_path(review.restaurant, review) %>
+                <%= link_to '削除', restaurant_review_path(review.restaurant, review), method: :delete %>
+              <% end %>
+
+
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="container">
+      <h2>レビュー投稿ユーザーの一覧</h2>
+      <% @restaurant.users.each do |user| %>
+        <p>
+          <%= user.user_name %>さん
+        </p>
+      <% end %>
+
+      <hr>
+      <%= link_to 'Edit', edit_restaurant_path(@restaurant) %> |
+      <%= link_to 'Back', restaurants_path %>
+    </div>
   </div>
 </div>

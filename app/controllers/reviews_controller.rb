@@ -1,4 +1,5 @@
 class ReviewsController < ApplicationController
+   before_action :authenticate_user!, only: [:new, :edit, :destroy, :update]
 
   def new
     @restaurant = Restaurant.find(params[:restaurant_id])
@@ -17,6 +18,23 @@ class ReviewsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def edit
+    @restaurant = Restaurant.find(params[:restaurant_id])
+    @review = Review.find(params[:id])
+  end
+
+  def update
+    @review = Review.find(params[:id])
+    @review.update(review_params)
+    redirect_to restaurant_url(@review.restaurant)
+  end
+
+  def destroy
+    @review = Review.find(params[:id])
+    @review.destroy
+    redirect_to restaurant_url(@review.restaurant)
   end
 
   private

@@ -1,9 +1,17 @@
 <div class="row">
-  <div class="col-lg-12">
-    <h1>登録店舗一覧</h1>
-    <p>お店一覧が表示されます。</p>
-    <% @restaurants.each do |restaurant| %>
-      <li><%= restaurant.store_name %></li>
-    <% end %>
+  <% @restaurants.each do |restaurant| %>
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <img src="<%= restaurant.image_url %>" alt="飯画像">
+      <div class="caption">
+        <h3><%= restaurant.store_name %></h3>
+        <p>...</p>
+        <p><%= link_to "お店情報", restaurant, class: 'btn btn-default' %></p>
+      </div>
+    </div>
   </div>
+  <% end %>
 </div>
+
+
+<p><%= link_to "新しいお店を登録", new_restaurant_path, class: 'btn btn-default' %></p>
